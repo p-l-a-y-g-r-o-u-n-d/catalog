@@ -1,0 +1,27 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: second-service
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  secretRef:
+    name: flux-system
+  url: https://github.com/p-l-a-y-g-r-o-u-n-d/second-service.git
+
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: second-service-repository
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  path: .
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: second-service
